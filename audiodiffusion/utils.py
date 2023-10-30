@@ -50,8 +50,8 @@ def renew_vae_attention_paths(old_list, n_shave_prefix_segments=0):
         new_item = new_item.replace("v.weight", "to_v.weight")
         new_item = new_item.replace("v.bias", "to_v.bias")
 
-        new_item = new_item.replace("proj_out.weight", "proj_attn.weight")
-        new_item = new_item.replace("proj_out.bias", "proj_attn.bias")
+        new_item = new_item.replace("proj_out.weight", "to_out.0.weight")
+        new_item = new_item.replace("proj_out.bias", "to_out.0.bias")
 
         new_item = shave_segments(new_item, n_shave_prefix_segments=n_shave_prefix_segments)
 
@@ -293,17 +293,12 @@ def convert_ldm_vae_checkpoint(checkpoint, config):
 
 def convert_ldm_to_hf_vae(ldm_checkpoint, ldm_config, hf_checkpoint, sample_size):
     checkpoint = torch.load(ldm_checkpoint)["state_dict"]
-    print('checkpoint ln295')
-    f = open("checkpoint.txt", "a")
-    f.write(str(checkpoint))
-    f.close()
+   
     # Convert the VAE model.
     vae_config = create_vae_diffusers_config(ldm_config)
     converted_vae_checkpoint = convert_ldm_vae_checkpoint(checkpoint, vae_config)
-    print('converted_vae_checkpoint ln299')
+    
     vae = AutoencoderKL(**vae_config)
-    f1 = open("converted_vae_checkpoint.txt", "a")
-    f1.write(str(converted_vae_checkpoint))
-    f1.close()
+    
     vae.load_state_dict(converted_vae_checkpoint)
     vae.save_pretrained(hf_checkpoint)
