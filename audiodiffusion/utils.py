@@ -119,7 +119,7 @@ def assign_to_checkpoint(
 
 def conv_attn_to_linear(checkpoint):
     keys = list(checkpoint.keys())
-    attn_keys = ["to_q.weight", "to_k.weight", "to_v.weight"]
+    attn_keys = ["key.weight", "query.weight", "value.weight"]
     for key in keys:
         if ".".join(key.split(".")[-2:]) in attn_keys:
             if checkpoint[key].ndim > 2:
