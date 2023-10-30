@@ -111,7 +111,7 @@ def assign_to_checkpoint(
                 new_path = new_path.replace(replacement["old"], replacement["new"])
 
         # proj_attn.weight has to be converted from conv 1D to linear
-        if "proj_attn.weight" in new_path:
+        if "to_out.0.weight" in new_path:
             checkpoint[new_path] = old_checkpoint[path["old"]][:, :, 0]
         else:
             checkpoint[new_path] = old_checkpoint[path["old"]]
@@ -119,12 +119,12 @@ def assign_to_checkpoint(
 
 def conv_attn_to_linear(checkpoint):
     keys = list(checkpoint.keys())
-    attn_keys = ["key.weight", "query.weight", "value.weight"]
+    attn_keys = ["to_k.weight", "to_q.weight", "to_v.weight"]
     for key in keys:
         if ".".join(key.split(".")[-2:]) in attn_keys:
             if checkpoint[key].ndim > 2:
                 checkpoint[key] = checkpoint[key][:, :, 0, 0]
-        elif "proj_out.weight" in key:
+        elif "to_out.0.weight" in key:
             if checkpoint[key].ndim > 2:
                 checkpoint[key] = checkpoint[key][:, :, 0]
 
