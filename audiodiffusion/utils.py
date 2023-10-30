@@ -294,10 +294,16 @@ def convert_ldm_vae_checkpoint(checkpoint, config):
 def convert_ldm_to_hf_vae(ldm_checkpoint, ldm_config, hf_checkpoint, sample_size):
     checkpoint = torch.load(ldm_checkpoint)["state_dict"]
     print('checkpoint ln295', checkpoint)
+    f = open("checkpoint.txt", "a")
+    f.write(checkpoint)
+    f.close()
     # Convert the VAE model.
     vae_config = create_vae_diffusers_config(ldm_config)
     converted_vae_checkpoint = convert_ldm_vae_checkpoint(checkpoint, vae_config)
     print('converted_vae_checkpoint ln299', converted_vae_checkpoint)
     vae = AutoencoderKL(**vae_config)
+    f = open("converted_vae_checkpoint.txt", "a")
+    f.write(converted_vae_checkpoint)
+    f.close()
     vae.load_state_dict(converted_vae_checkpoint)
     vae.save_pretrained(hf_checkpoint)
