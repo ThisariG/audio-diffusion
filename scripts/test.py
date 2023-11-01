@@ -77,7 +77,7 @@ if __name__ == "__main__":
         accelerator="ddp",  # Use Distributed Data Parallel for multi-GPU training
         max_epochs=args.max_epochs,
         resume_from_checkpoint=args.resume_from_checkpoint,
-        gpus=None,  # Number of GPUs to use (or use gpus=1 for a single GPU)
+        gpus=2,  # Number of GPUs to use (or use gpus=1 for a single GPU)
         callbacks=[
             ImageLogger(
                 every=args.save_images_batches,
