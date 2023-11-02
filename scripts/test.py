@@ -16,6 +16,26 @@ from torch.utils.data import DataLoader, Dataset
 
 from audiodiffusion.utils import convert_ldm_to_hf_vae
 
+class AudioDiffusion(Dataset):
+    def _init_(self, model_id, channels=3):
+        super()._init_()
+        self.channels = channels
+        if os.path.exists(model_id):
+            self.hf_dataset = load_from_disk(model_id)["train"]
+        else:
+            self.hf_dataset = load_dataset(model_id)["train"]
+
+    def _len_(self):
+        return len(self.hf_dataset)
+
+    def _getitem_(self, idx):
+        image = self.hf_dataset[idx]["image"]
+        if self.channels == 3:
+            image = image.convert("RGB")
+        image = np.frombuffer(image.tobytes(), dtype="uint8").reshape((image.height, image.width, self.channels))
+        image = (image / 255) * 2 - 1
+        return {"image": image}
+        
 class AudioDiffusionDataModule(pl.LightningDataModule):
     def __init__(self, model_id, batch_size, channels):
         super().__init__()
