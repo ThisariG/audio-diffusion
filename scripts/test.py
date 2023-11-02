@@ -34,7 +34,7 @@ class AudioDiffusion(Dataset):
             image = image.convert("RGB")
         image = np.frombuffer(image.tobytes(), dtype="uint8").reshape((image.height, image.width, self.channels))
         image = (image / 255) * 2 - 1
-        return {"image": image}
+        return {"image":image}
         
 class AudioDiffusionDataModule(pl.LightningDataModule):
     def __init__(self, model_id, batch_size, channels):
