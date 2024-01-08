@@ -1,5 +1,5 @@
 torch
-numpy
+numpy==1.24
 Pillow
 diffusers>=0.12.0
 librosa
@@ -10,3 +10,4 @@ tensorboard
 accelerate
 torchvision
 transformers
+pydantic==2
