@@ -8,7 +8,7 @@ import pytorch_lightning as pl
 import torch
 import torchvision
 from datasets import load_dataset, load_from_disk
-from diffusers.pipelines.audio_diffusion import Mel
+from diffusers.pipelines.deprecated.audio_diffusion import Mel
 from ldm.util import instantiate_from_config
 from librosa.util import normalize
 from omegaconf import OmegaConf
