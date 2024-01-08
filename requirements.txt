@@ -10,4 +10,4 @@ tensorboard
 accelerate
 torchvision
 transformers
-pydantic==2
+pydantic==1.10.13
