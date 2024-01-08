@@ -7,7 +7,7 @@ import re
 import numpy as np
 import pandas as pd
 from datasets import Dataset, DatasetDict, Features, Image, Value
-from diffusers.Mel import Mel
+from diffusers.pipelines.deprecated.audio_diffusion import Mel
 from tqdm.auto import tqdm
 
 logging.basicConfig(level=logging.WARN)
