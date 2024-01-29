@@ -1,5 +1,5 @@
 torch
-numpy==1.24
+numpy==1.24.0
 Pillow
 diffusers>=0.12.0
 librosa
