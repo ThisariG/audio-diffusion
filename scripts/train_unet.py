@@ -267,6 +267,11 @@ def main(args):
                                                      timesteps)
 
             with accelerator.accumulate(model):
+                t = torch.cuda.get_device_properties(0).total_memory
+                r = torch.cuda.memory_reserved(0)
+                a = torch.cuda.memory_allocated(0)
+                f = r-a 
+                print("Available GPU: ", f)
                 # Predict the noise residual
                 if args.encodings is not None:
                     noise_pred = model(noisy_images, timesteps,
